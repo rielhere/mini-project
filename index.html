@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Digital Storage Converter</title>
+<link rel="shortcut icon" href="logoriel-Photoroom.png" type="image/x-icon">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Digital Storage Converter</h1>
+
+<div class="container">
+  <input type="number" id="inputValue" value="0" min="0" oninput="Total()">
+
+<div class="row">
+  <label>From</label>
+  <select id="fromUnit" onchange="Total()">
+    <option value="1">B</option>
+    <option value="1024">KB</option>
+    <option value="1048576">MB</option>
+    <option value="1073741824">GB</option>
+    <option value="1099511627776">TB</option>
+  </select>
+</div>
+
+<div class="row">
+  <label>To</label>
+  <select id="toUnit" onchange="Total()">
+    <option value="1">B</option>
+    <option value="1024">KB</option>
+    <option value="1048576">MB</option>
+    <option value="1073741824">GB</option>
+    <option value="1099511627776">TB</option>
+  </select>
+</div>
+  <button onclick="Total()">Convert</button>
+
+  <h2 id="result">Result: 0</h2>
+</div>
+<script>
+function formatNumber(num) {
+    if (num === 0) return "0";
+
+    if (num < 0.000001) {
+        return num.toFixed(20).replace(/0+$/, '').replace(/\.$/, '');
+    }
+
+    return num.toFixed(10).replace(/0+$/, '').replace(/\.$/, '');
+}
+
+function Total() {
+    let input = document.getElementById("inputValue");
+
+    if (input.value < 0 || input.value === "-0") {
+        input.value = 0;
+    }
+
+    let value = Number(input.value);
+    let from = document.getElementById("fromUnit");
+    let to = document.getElementById("toUnit");
+
+    let result = (value * from.value) / to.value;
+    let formattedResult = formatNumber(result);
+
+    let fromText = from.options[from.selectedIndex].text;
+    let toText = to.options[to.selectedIndex].text;
+
+    document.getElementById("result").innerText =
+        "Result: " + value + " " + fromText + " = " + formattedResult + " " + toText;
+}
+</script>
+
+</body>
+</html>
